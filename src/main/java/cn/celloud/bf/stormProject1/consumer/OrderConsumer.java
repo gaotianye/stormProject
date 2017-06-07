@@ -62,7 +62,7 @@ public class OrderConsumer extends Thread {
 		return queue;
 	}
 	public static void main(String[] args) {
-		OrderConsumer orderConsumer = new OrderConsumer(Constant.TOPIC);
+		OrderConsumer orderConsumer = new OrderConsumer(Constant.ORDER_TOPIC);
 		orderConsumer.start();
 	}
 }
