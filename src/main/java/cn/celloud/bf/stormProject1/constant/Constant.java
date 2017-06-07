@@ -6,7 +6,7 @@ package cn.celloud.bf.stormProject1.constant;
  */
 public class Constant {
 	//topic
-	public static final String TOPIC = "storm_topic_20170606";
+	public static final String ORDER_TOPIC = "storm_order_topic_20170607";
 	//group_id
 	public static final String GROUP_ID = "group_20170606";
 	//zk_connect
