@@ -1,4 +1,6 @@
 cn\celloud\bf\stormProject1\spout\OrderBaseSpout.class
 cn\celloud\bf\stormProject1\topology\AreaAmtTopo.class
-cn\celloud\bf\stormProject1\consumer\Constant.class
+cn\celloud\bf\stormProject1\hbase\HbaseImpl.class
+cn\celloud\bf\stormProject1\hbase\Test.class
+cn\celloud\bf\stormProject1\constant\Constant.class
 cn\celloud\bf\stormProject1\consumer\OrderConsumer.class
