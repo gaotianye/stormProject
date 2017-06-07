@@ -45,6 +45,19 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- 操作hbase -->
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-client</artifactId>
+			<version>0.98.8-hadoop2</version>
+		</dependency>
+		<dependency>  
+   			<groupId>jdk.tools</groupId>  
+    		<artifactId>jdk.tools</artifactId>  
+    		<version>1.7</version>  
+    		<scope>system</scope>  
+    		<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>  
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -54,7 +67,7 @@
 					<archive>
 						<manifest>
 							<!--这里要替换成jar包main方法所在类 -->
-							<mainClass>cn.celloud.bf.stormProject1.consumer.OrderConsumer</mainClass>
+							<mainClass>cn.celloud.bf.stormProject1.hbase.Test</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>.</Class-Path>
