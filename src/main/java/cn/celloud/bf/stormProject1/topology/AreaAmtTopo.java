@@ -4,7 +4,7 @@ import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.StormSubmitter;
 import backtype.storm.topology.TopologyBuilder;
-import cn.celloud.bf.stormProject1.consumer.Constant;
+import cn.celloud.bf.stormProject1.constant.Constant;
 import cn.celloud.bf.stormProject1.spout.OrderBaseSpout;
 
 public class AreaAmtTopo {
