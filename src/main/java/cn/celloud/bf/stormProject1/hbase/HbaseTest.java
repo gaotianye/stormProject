@@ -3,7 +3,7 @@ package cn.celloud.bf.stormProject1.hbase;
 import cn.celloud.bf.stormProject1.constant.Constant;
 import cn.celloud.bf.stormProject1.hbase.HbaseImpl;
 
-public class Test {
+public class HbaseTest {
 	public static void main(String[] args) throws Exception {
 		HbaseImpl hbase = new HbaseImpl();
 		// 创建表
