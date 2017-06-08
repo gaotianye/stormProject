@@ -13,9 +13,19 @@ import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
+import cn.celloud.bf.stormProject1.hbase.HbaseImpl;
 import cn.celloud.bf.utils.CaculateUtils;
 import cn.celloud.bf.utils.SleepUtils;
-
+/**
+ * bolt重启/初始化时，需要从hbase中读取数据
+ * 问：为什么在这个bolt里面写呢？
+ * 答：只有从此类中才开始进行计算。
+ * 
+ * spout-->filter bolt-->amt bolt-->result bolt
+ * 发射源             过滤                                  开始计算                     汇总计算
+ * @author Administrator
+ *
+ */
 public class AreaAmtBolt extends BaseRichBolt {
 	Logger logger = LoggerFactory.getLogger(AreaAmtBolt.class);
 	
@@ -23,10 +33,12 @@ public class AreaAmtBolt extends BaseRichBolt {
 	
 	private OutputCollector collector;
 	private Map<String,Double> map = null;
+	private HbaseImpl hbase;
 	
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
 		this.collector = collector;
 		map = new HashMap<String,Double>();
+		hbase = new HbaseImpl();
 	}
 
 	public void execute(Tuple input) {
@@ -52,6 +64,18 @@ public class AreaAmtBolt extends BaseRichBolt {
 
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("date_area","amt"));
+	}
+	
+	/**
+	 * 从hbase中获取数据
+	 * @param rowKeyDate
+	 * @param hbase
+	 * @return
+	 */
+	public Map<String,Double> initMap(String rowKeyDate,HbaseImpl hbase){
+		Map<String,Double> map = new HashMap<String,Double>();
+		
+		return null;
 	}
 
 }
