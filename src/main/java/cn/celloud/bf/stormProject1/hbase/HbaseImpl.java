@@ -33,7 +33,7 @@ public class HbaseImpl {
 	 * @param family
 	 * @throws Exception
 	 */
-	public void creatTable(String tableName, String[] family) throws Exception {
+	public void createTable(String tableName, String[] family) throws Exception {
 		HBaseAdmin admin = new HBaseAdmin(conf);
 		HTableDescriptor desc = new HTableDescriptor(tableName);
 		//如果表存在，则不创建
