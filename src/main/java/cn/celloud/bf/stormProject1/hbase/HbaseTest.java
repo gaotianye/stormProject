@@ -9,7 +9,7 @@ public class HbaseTest {
 		// 创建表
 		String tableName = Constant.HBASE_TB_NAME;
 		String[] family = Constant.HBSAE_FAMILY_COLUMNS;
-		hbase.creatTable(tableName, family);
+		hbase.createTable(tableName, family);
 
 		String[] column1 = Constant.HBASE_COLMN_1;
 		String[] rowkey1_value1 = { "gaotianye","gao_password","male" };
