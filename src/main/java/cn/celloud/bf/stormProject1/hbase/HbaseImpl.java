@@ -1,6 +1,7 @@
 package cn.celloud.bf.stormProject1.hbase;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -15,6 +16,8 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.filter.Filter;
+import org.apache.hadoop.hbase.filter.PrefixFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import cn.celloud.bf.stormProject1.constant.Constant;
@@ -136,6 +139,28 @@ public class HbaseImpl {
 		}
 		return result;
 	}
+	
+	/**
+	 * 根据rowKey进行过滤查询
+	 * @param tableName
+	 * @param rowKeyLike
+	 * @return
+	 * @throws Exception
+	 */
+	public ResultScanner getListResult(String tableName,String rowKeyLike) throws Exception{
+		System.out.println("--------查询tableName:"+tableName+",rowKey前缀:"+rowKeyLike+"的所有信息----------------");
+		// 获取表
+		HTable table = new HTable(conf, Bytes.toBytes(tableName));
+		
+		Scan scan = new Scan();
+		//设置scan的缓冲区大小
+		scan.setCaching(1000);
+		
+		Filter filter = new PrefixFilter(Bytes.toBytes(rowKeyLike));
+		scan.setFilter(filter);
+		ResultScanner rs = table.getScanner(scan);
+		return rs;
+	}
 
 	/**
 	 * 遍历查询hbase表
@@ -145,6 +170,8 @@ public class HbaseImpl {
 	public void getResultScann(String tableName) throws IOException {
 		System.out.println("------------开始查询所有表信息-----------------");
 		Scan scan = new Scan();
+		//设置scan的缓冲区大小
+		scan.setCaching(1000);
 		ResultScanner rs = null;
 		HTable table = new HTable(conf, Bytes.toBytes(tableName));
 		try {
@@ -174,6 +201,8 @@ public class HbaseImpl {
 	public void getResultScann(String tableName, String start_rowkey, String stop_rowkey) throws IOException {
 		System.out.println("---------------根据rowkey指定的起始和终止位置查询---------------------");
 		Scan scan = new Scan();
+		//设置scan的缓冲区大小
+		scan.setCaching(1000);
 		scan.setStartRow(Bytes.toBytes(start_rowkey));
 		scan.setStopRow(Bytes.toBytes(stop_rowkey));
 		ResultScanner rs = null;
