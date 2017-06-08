@@ -13,7 +13,7 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichSpout;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
-import cn.celloud.bf.stormProject1.utils.DateUtils;
+import cn.celloud.bf.utils.DateUtils;
 
 public class OrderTestSpout extends BaseRichSpout {
 	Logger logger = LoggerFactory.getLogger(OrderTestSpout.class);

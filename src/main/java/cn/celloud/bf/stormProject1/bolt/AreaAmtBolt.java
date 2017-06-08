@@ -13,8 +13,8 @@ import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
-import cn.celloud.bf.stormProject1.utils.CaculateUtils;
-import cn.celloud.bf.stormProject1.utils.SleepUtils;
+import cn.celloud.bf.utils.CaculateUtils;
+import cn.celloud.bf.utils.SleepUtils;
 
 public class AreaAmtBolt extends BaseRichBolt {
 	Logger logger = LoggerFactory.getLogger(AreaAmtBolt.class);
