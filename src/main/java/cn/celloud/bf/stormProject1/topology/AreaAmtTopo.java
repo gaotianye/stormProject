@@ -11,15 +11,20 @@ import cn.celloud.bf.stormProject1.bolt.AreaResBolt;
 import cn.celloud.bf.stormProject1.constant.Constant;
 import cn.celloud.bf.stormProject1.spout.OrderBaseSpout;
 import cn.celloud.bf.stormProject1.spout.OrderTestSpout;
-
+/**
+ * 地区销售额 topology
+ * @author Administrator
+ *
+ */
 public class AreaAmtTopo {
 	public static void main(String[] args) {
 		TopologyBuilder topologyBuilder = new TopologyBuilder();
 		// 5个线程，每个线程里面使用1个线程消费kafka中的数据
 //		topologyBuilder.setSpout("spout", new OrderBaseSpout(Constant.ORDER_TOPIC),5);
 		topologyBuilder.setSpout("spout", new OrderTestSpout(),1);
-		topologyBuilder.setBolt("filter", new AreaFilterBolt(), 1).shuffleGrouping("spout");
-		topologyBuilder.setBolt("areabolt", new AreaAmtBolt(), 1).fieldsGrouping("filter", new Fields("area_id"));
+		topologyBuilder.setBolt("filter", new AreaFilterBolt(), 5).shuffleGrouping("spout");
+		// 5个组，放到2个线程中即可
+		topologyBuilder.setBolt("areabolt", new AreaAmtBolt(), 2).fieldsGrouping("filter", new Fields("area_id"));
 		topologyBuilder.setBolt("resbolt", new AreaResBolt(), 1).shuffleGrouping("areabolt");
 		
 		Config config = new Config();
