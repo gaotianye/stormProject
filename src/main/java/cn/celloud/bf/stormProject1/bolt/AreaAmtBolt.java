@@ -1,8 +1,14 @@
 package cn.celloud.bf.stormProject1.bolt;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.apache.hadoop.hbase.KeyValue;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,9 +19,10 @@ import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
+import cn.celloud.bf.stormProject1.constant.Constant;
 import cn.celloud.bf.stormProject1.hbase.HbaseImpl;
 import cn.celloud.bf.utils.CaculateUtils;
-import cn.celloud.bf.utils.SleepUtils;
+import cn.celloud.bf.utils.DateUtils;
 /**
  * bolt重启/初始化时，需要从hbase中读取数据
  * 问：为什么在这个bolt里面写呢？
@@ -34,11 +41,18 @@ public class AreaAmtBolt extends BaseRichBolt {
 	private OutputCollector collector;
 	private Map<String,Double> map = null;
 	private HbaseImpl hbase;
-	
+	private String today;
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
 		this.collector = collector;
 		map = new HashMap<String,Double>();
 		hbase = new HbaseImpl();
+		today = DateUtils.formatDate(new Date());	
+		//初始化map
+		System.out.println("===========初始化map============");
+		map = initMap(today, hbase);
+		for (Entry<String, Double> entry : map.entrySet()) {
+			System.out.println("rowkey:"+entry.getKey()+",amt:"+entry.getValue());
+		}
 	}
 
 	public void execute(Tuple input) {
@@ -72,10 +86,24 @@ public class AreaAmtBolt extends BaseRichBolt {
 	 * @param hbase
 	 * @return
 	 */
-	public Map<String,Double> initMap(String rowKeyDate,HbaseImpl hbase){
+	public Map<String,Double> initMap(String rowKeyLike,HbaseImpl hbase){
+		//"date_area","amt"
 		Map<String,Double> map = new HashMap<String,Double>();
-		
-		return null;
+		String tableName = Constant.HBASE_TB_NAME;
+		ResultScanner listResult = null;
+		try {
+			listResult = hbase.getListResult(tableName, rowKeyLike);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		for (Result result : listResult) {
+			for (KeyValue kv : result.list()) {
+				String date_area = Bytes.toString(kv.getRow());
+				Double amt = Double.parseDouble(Bytes.toString(kv.getValue()));
+				map.put(date_area, amt);
+			}
+		}
+		return map;
 	}
 
 }
