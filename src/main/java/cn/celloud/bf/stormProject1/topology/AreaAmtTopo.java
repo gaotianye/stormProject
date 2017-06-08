@@ -20,8 +20,8 @@ public class AreaAmtTopo {
 	public static void main(String[] args) {
 		TopologyBuilder topologyBuilder = new TopologyBuilder();
 		// 5个线程，每个线程里面使用1个线程消费kafka中的数据
-//		topologyBuilder.setSpout("spout", new OrderBaseSpout(Constant.ORDER_TOPIC),5);
-		topologyBuilder.setSpout("spout", new OrderTestSpout(),1);
+		topologyBuilder.setSpout("spout", new OrderBaseSpout(Constant.ORDER_TOPIC),5);
+//		topologyBuilder.setSpout("spout", new OrderTestSpout(),1);
 		topologyBuilder.setBolt("filter", new AreaFilterBolt(), 5).shuffleGrouping("spout");
 		// 5个组，放到2个线程中即可
 		topologyBuilder.setBolt("areabolt", new AreaAmtBolt(), 2).fieldsGrouping("filter", new Fields("area_id"));
