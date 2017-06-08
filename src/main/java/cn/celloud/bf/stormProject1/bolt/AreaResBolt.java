@@ -1,5 +1,6 @@
 package cn.celloud.bf.stormProject1.bolt;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,7 @@ import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Tuple;
+import cn.celloud.bf.stormProject1.constant.Constant;
 import cn.celloud.bf.stormProject1.hbase.HbaseImpl;
 /**
  * 注意：此bolt中使用了定时任务
@@ -42,10 +44,20 @@ public class AreaResBolt extends BaseRichBolt {
 	public void execute(Tuple input) {
 		String date_area = null;
 		Double amt = null;
+		String tbName = Constant.HBASE_TB_NAME;
+		String[] column = Constant.HBASE_COLMN;
 		//间隔5s执行一次
 		if(input.getSourceComponent().equals(Constants.SYSTEM_COMPONENT_ID)){
 			for (String key : hashMap.keySet()) {
-				logger.info("date_area:{},amt:{}",key,hashMap.get(key));
+				//key:2017-06-08_1    value:200.50
+				String[] value = null; 
+				value[0] = hashMap.get(key)+"";
+				try {
+					hbase.addData(key,tbName,column,value);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+//				logger.info("date_area:{},amt:{}",key,hashMap.get(key));
 			}
 		}else{
 			date_area = input.getStringByField("date_area");
