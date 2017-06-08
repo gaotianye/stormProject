@@ -31,10 +31,12 @@ public class Constant {
 	//hbase.zookeeper.quorum
 	public static final String HBASE_ZK_QUORUM = "master,slave1,slave2"; 
 	//hbase 表名
-	public static final String HBASE_TB_NAME = "test_tb1";
+	public static final String HBASE_TB_NAME = "area_order";
 	//hbase 列族
 	public static final String[] HBSAE_FAMILY_COLUMNS ={"cf1", "cf2"};
 	public static final String HBSAE_FAMILY_COLUMN = "cf1";
+	//hbase 列名
+	public static final String[] HBASE_COLMN = {"area_amt"};
 	//hbase 列名1
 	public static final String[] HBASE_COLMN_1 = {"name", "password", "sex"};
 	//hbase 列名2
